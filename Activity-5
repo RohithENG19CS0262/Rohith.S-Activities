@@ -1,0 +1,30 @@
+#include <stdio.h>
+float input()
+{    
+  float temp;
+  scanf("%f",&temp);
+  return(temp);
+}
+  float compute(float h1,float b1,float d1)
+  {    
+    float v;
+    vol=((1.0/3.0) * ((h1*d1)+d1))/b1;
+    return(v);
+  }
+    void display(float volume)
+  {
+    printf("Volume of tromboloid is %f.",volume);
+  }
+    int main()
+  {
+    float h,b,d,V;
+    printf("Enter value of h:\n"); 
+    h=input();
+    printf("Enter value of b:\n");
+    b=input();
+    printf("Enter value of d:\n");
+    d=input();
+    V=compute(h,b,d);
+    display(V);
+    return 0;
+  }

@@ -1,0 +1,30 @@
+#include<stdio.h>
+void main()
+{
+    int val,num,max,den2,den1,num1,num2,sum,a,b;
+    printf("Enter the Numerator of first fraction:");
+    scanf("%d",&num1);
+    printf("Enter the Denominator of first fraction:");
+    scanf("%d",&den1);
+    printf("Enter the Numerator of second fraction:");
+    scanf("%d",&num2);
+    printf("Enter the Denominator of second fraction:");
+    scanf("%d",&den2);
+    max = (den1 > den2) ? den1 : den2;
+
+    while (1)
+    {
+        if (max % den1 == 0.0 && max % den2 == 0.0)
+        {
+            break;
+        }
+        ++max;
+    }
+    a = ((num1*max)/den1);
+    b = ((num2*max)/den2);
+    num = a+b;
+    if (num == max)
+        printf("The addition of the given fractions is: %d/%d = 1",num,max);
+    else
+        printf("The addition of the given fractions is: %d/%d",num,max);
+}

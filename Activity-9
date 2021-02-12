@@ -1,5 +1,5 @@
 #include<stdio.h>
-int main()
+void main()
 {
     int sum,non,num,i;
     printf("Enter the number of num to add:");

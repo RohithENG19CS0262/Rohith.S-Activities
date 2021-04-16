@@ -1,0 +1,175 @@
+#include<stdio.h>
+
+struct students
+{
+    char std_name[10];
+    int std_marks[10];
+    float all_marks;
+    char grade;
+};
+typedef struct students students;
+
+struct grade_sheet
+{
+    char sub_name[10];
+    int num_of_students;
+    int num_of_tests;
+    float weights[10];
+    students std[10];
+};
+typedef struct grade_sheet grade_sheet;
+
+void input_n_gradesheet(grade_sheet gs[10],int *n);
+void compute_grade_n_gradesheet(grade_sheet gs[10],int n);
+char get_grade(float all_marks);
+void output_n_gradebooks(grade_sheet gs[10],int n);
+
+
+void input_one_gradesheet(grade_sheet gs[10],int i)
+{
+    int j,k,l;
+    printf("\nEnter subject %d name: ",i+1);
+    scanf(" %s",gs[i].sub_name);
+
+    printf("\nEnter no of students: ");
+    scanf("%d",&gs[i].num_of_students);
+
+    printf("\nEnter no of tests: ");
+    scanf("%d",&gs[i].num_of_tests);
+
+    for(j=0;j<gs[i].num_of_tests;j++)
+    {
+        printf("\nEnter weights %d: ",j+1);
+        scanf("%f",&gs[i].weights[j]);
+    }
+
+    for(k=0;k<gs[i].num_of_students;k++)
+    {
+        printf("Enter the student %d name: ",k+1);
+        scanf(" %s",gs[i].std[k].std_name);
+
+        for(l=0;l<gs[i].num_of_tests;l++)
+        {
+            printf("\nEnter score %d: ",l+1);
+            scanf("%d",&gs[i].std[k].std_marks[l]);
+        }
+    }
+}
+
+void input_n_gradesheet(grade_sheet gs[10],int *n)
+{
+    int i=0;
+
+    printf("Enter no of gradebooks: ");
+    scanf("%d",n);
+    if(*n==1)
+    {
+        input_one_gradesheet(gs,i);
+    }
+    else
+    {
+        for(i=0;i<*n;i++)
+        {
+            input_one_gradesheet(gs,i);
+        }
+    }
+}
+
+void compute_grade_one_gradesheet(grade_sheet gs[10],int i)
+{
+    int k,l;
+    float all_marks;
+    for(k=0;k<gs[i].num_of_students;k++)
+    {
+        all_marks=0;
+        for(l=0;l<gs[i].num_of_tests;l++)
+        {
+            all_marks=all_marks+gs[i].std[k].std_marks[l]*gs[i].weights[l];
+        }
+        gs[i].std[k].all_marks=all_marks;
+        gs[i].std[k].grade=get_grade(all_marks);
+    }
+}
+
+void compute_grade_n_gradesheet(grade_sheet gs[10],int n)
+{
+    int i=0;
+
+    if(n==1)
+    {
+        compute_grade_one_gradesheet(gs,i);
+    }
+    else
+    {
+        for(i=0;i<n;i++)
+        {
+            compute_grade_one_gradesheet(gs,i);
+        }
+    }
+}
+
+char get_grade(float all_marks)
+{
+    char grade;
+    if(all_marks>=90 && all_marks<100)
+    {
+        grade='A';
+    }
+    else if(all_marks>=80 && all_marks<90)
+    {
+        grade='B';
+    }
+    else if(all_marks>=70 && all_marks<80)
+    {
+        grade='C';
+    }
+    else if(all_marks>=60 && all_marks<70)
+    {
+        grade='D';
+    }
+    else if(all_marks<60)
+    {
+        grade='F';
+    }
+    return grade;
+}
+
+void output_one_gradesheet(grade_sheet gs[10],int i)
+{
+    int k;
+    printf("\n%s ",gs[i].sub_name);
+    for(k=0;k<gs[i].num_of_students;k++)
+    {
+        printf("\nStudent name is  %s,",gs[i].std[k].std_name);
+        printf("his Total marks is: %.2f,",gs[i].std[k].all_marks);
+        printf("and his Student grade is: %c ",gs[i].std[k].grade);
+    }
+    printf("\n");
+}
+
+void output_n_gradesheet(grade_sheet gs[10],int n)
+{
+    int i=0;
+
+    if(n==1)
+    {
+        output_one_gradesheet(gs,i);
+    }
+    else
+    {
+        for(i=0;i<n;i++)
+        {
+            output_one_gradesheet(gs,i);
+        }
+    }
+}
+
+int main()
+{
+    int i,j,k,n;
+    grade_sheet gs[10];
+    input_n_gradesheet(gs,&n);
+    compute_grade_n_gradesheet(gs,n);
+    output_n_gradesheet(gs,n);
+    return 0;
+}

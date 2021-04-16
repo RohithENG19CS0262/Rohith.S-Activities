@@ -1,0 +1,114 @@
+#include<stdio.h>
+ 
+struct fract
+{
+    int num;
+	int den;
+};
+ 
+typedef struct fract fract;
+ 
+struct Egypt_fract
+{
+    int a;
+	int den[100];
+    struct fract f_rep;
+};
+ 
+typedef struct Egypt_fract Eg_frac;
+ 
+Eg_frac input_eg_one()
+{
+	Eg_frac z;
+	printf("Enter the number of unit fractions : ");
+	scanf("%d",&z.a);
+	for(int i=0;i<z.a;i++)
+	{
+	    printf("Enter the values for denominator : ");
+	    scanf("%d",&z.den[i]);
+	}
+	return z;
+}
+ 
+void input_eg_n(int a, Eg_frac arr[a])
+{
+    for(int i=0;i<a;i++)
+    {
+        arr[i]= input_eg_one();
+    }
+}
+ 
+int calculate_gcd(int x,int y)
+{
+    if(y==0)
+    return x;
+    else
+    return calculate_gcd(y,x%y);
+}
+ 
+ 
+fract sum_of_two_frac(fract p,fract s)
+{
+    fract w;
+    int gcd;
+    w.num=p.num*s.den+p.den*s.num;
+    w.den=p.den*s.den;
+    gcd=calculate_gcd(w.num,w.den);
+    w.num=w.num/gcd;
+    w.den=w.den/gcd;
+    return w;
+}
+ 
+void sum_of_n_frac(Eg_frac *x)
+{          
+	fract p;
+	p.num=1;
+	p.den=x->den[0];
+	x->f_rep.num=0;
+	x->f_rep.den=1;
+	for(int i=0;i<x->a;i++)
+	{
+		p.den=x->den[i];
+		x->f_rep=sum_of_two_frac(x->f_rep,p);
+	}
+ 
+}
+ 
+void compute_n(int a ,Eg_frac arr[a])
+{
+    for(int i=0;i<a;i++)
+    {
+        sum_of_n_frac(&arr[i]);
+    }
+}
+ 
+void display_one(Eg_frac a)
+{
+    for(int i=0;i<a.a;i++)
+    {
+        printf("1/%d",a.den[i]);
+        if(i<a.a-1)
+        printf(" + ");
+    }
+    printf(" = %d/%d\n",a.f_rep.num,a.f_rep.den);
+}
+ 
+void display_n(int a,Eg_frac arr[a])
+{
+    for(int i=0;i<a;i++)
+    {
+        display_one(arr[i]);
+    }
+}
+ 
+int main()
+{
+	int a;
+	printf("Enter the number of instances: ");
+	scanf("%d",&a);
+	Eg_frac arr[a];
+	input_eg_n(a,arr);
+	compute_n(a,arr);
+	display_n(a,arr);
+	return 0;
+}

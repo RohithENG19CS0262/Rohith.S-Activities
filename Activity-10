@@ -1,30 +1,80 @@
 #include<stdio.h>
-void main()
+ 
+struct fract
 {
-    int val,num,max,den2,den1,num1,num2,sum,a,b;
-    printf("Enter the Numerator of first fraction:");
-    scanf("%d",&num1);
-    printf("Enter the Denominator of first fraction:");
-    scanf("%d",&den1);
-    printf("Enter the Numerator of second fraction:");
-    scanf("%d",&num2);
-    printf("Enter the Denominator of second fraction:");
-    scanf("%d",&den2);
-    max = (den1 > den2) ? den1 : den2;
-
-    while (1)
-    {
-        if (max % den1 == 0.0 && max % den2 == 0.0)
-        {
-            break;
-        }
-        ++max;
-    }
-    a = ((num1*max)/den1);
-    b = ((num2*max)/den2);
-    num = a+b;
-    if (num == max)
-        printf("The addition of the given fractions is: %d/%d = 1",num,max);
-    else
-        printf("The addition of the given fractions is: %d/%d",num,max);
+  int num,den;
+};
+ 
+struct fract input()
+{
+  struct fract a;
+  printf("Enter the values for numerator and denominator:\n");
+  scanf("%d %d",&a.num, &a.den);
+  return a;
+}
+ 
+void input_no(int no, struct fract arr[100])
+{  
+  for(int i=0;  i<no;  i++)
+  {
+    arr[i] = input();
+  }
+}
+ 
+int gcd(int x, int y)
+{
+  int i,n;
+  n = 1;
+  for(i=2; i<=x && i<=y;i++)
+  {
+      if(x%i==0 && y%i==0)
+      n=i;
+   }
+  return n;
+}
+ 
+ 
+ 
+struct fract compute(struct fract x, struct fract y)
+{  
+  struct fract sum;
+  sum.num = (x.num * y.den) + (x.den * y.num);
+  sum.den = (x.den * y.den);
+  int Gcd = gcd(sum.num, sum.den);
+  sum.num = (sum.num/Gcd);
+  sum.den = (sum.den/Gcd);
+  return sum;
+}
+ 
+struct fract compute_no(int no, struct fract arr[100])
+{
+  struct fract add;
+  add.num = 0;
+  add.den = 1;
+  for(int i=0; i<no; i++)
+  {
+    add = compute(add,arr[i]);
+  }
+  return add;
+}
+ 
+void display(int no, struct fract arr[100], struct fract sum)
+{
+  for(int i=0; i<no; i++)
+  {
+    printf("%d/%d\n",arr[i].num,arr[i].den);
+  }  
+  printf("%d/%d",sum.num,sum.den);
+}
+ 
+int main()
+{
+  int no;
+  struct fract arr[100],sum;
+  printf("How many fractions do you want to add?\n");
+  scanf("%d",&no);
+  input_no(no,arr);
+  sum = compute_no(no,arr);
+  display(no,arr,sum);
+  return 0;
 }

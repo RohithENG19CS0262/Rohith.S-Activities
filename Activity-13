@@ -1,13 +1,14 @@
 #include<stdio.h>
-
 #include<math.h>
 
-typedef struct {
+typedef struct 
+{
   float a, b;
 }
 ver;
 
-typedef struct {
+typedef struct 
+{
   float area;
   float len;
   float bre;
@@ -15,42 +16,52 @@ typedef struct {
 }
 rect;
 
-rect input_rect() {
+rect input_rect() 
+{
   rect r;
   printf("Enter the vertices of the rectangle:\n");
   scanf("%f%f%f%f%f%f", & r.v[0].a, & r.v[0].b, & r.v[1].a, & r.v[1].b, & r.v[2].a, & r.v[2].b);
   return r;
 }
 
-void input_n_rectangles(int num, rect arr[num]) {
-  for (int i = 0; i < num; i++) {
+void input_n_rectangles(int num, rect arr[num]) 
+{
+  for (int i = 0; i < num; i++) 
+  {
     arr[i] = input_rect();
   }
 }
 
-void compute_rect(rect * pr) {
+void compute_rect(rect * pr) 
+{
   pr -> len = (sqrt(pow(pr -> v[0].a - pr -> v[1].a, 2) + pow(pr -> v[0].b - pr -> v[1].b, 2)));
   pr -> bre = (sqrt(pow(pr -> v[1].a - pr -> v[2].a, 2) + pow(pr -> v[1].b - pr -> v[2].b, 2)));
   pr -> area = (pr -> len * pr -> bre);
 }
 
-void compute_n_rectangles(int num, rect arr[num]) {
-  for (int i = 0; i < num; i++) {
+void compute_n_rectangles(int num, rect arr[num]) 
+{
+  for (int i = 0; i < num; i++) 
+  {
     compute_rect( & arr[i]);
   }
 }
 
-void output_rect(rect r) {
+void output_rect(rect r) 
+{
   printf("%f %f %f %f %f %f is %f", r.v[0].a, r.v[0].b, r.v[1].a, r.v[1].b, r.v[2].a, r.v[2].b, r.area);
 }
 
-void output_n_rectangles(int num, rect arr[num]) {
-  for (int i = 0; i < num; i++) {
+void output_n_rectangles(int num, rect arr[num])
+{
+  for (int i = 0; i < num; i++) 
+  {
     output_rect(arr[i]);
   }
 }
 
-int main() {
+int main() 
+{
   int num;
   printf("Enter number of rectangles:");
   scanf("%d", & num);

@@ -1,0 +1,57 @@
+#include<stdio.h>
+ 
+struct fract
+{
+  int num;
+  int den;
+};
+ 
+typedef struct fract frac;
+frac input()
+{
+   frac a;
+   scanf("%d",&a.num);
+   scanf("%d",&a.den);
+   return a;
+}
+ 
+int gcd(int x, int y)
+{
+  int i,n;
+  for(i=1; i<=x && i<=y;i++)
+  {
+    if(x%i==0 && y%i==0)
+    n=i;
+  }
+  return n;
+}
+ 
+frac sum(frac a1,frac a2)
+{
+  frac p;
+  int GCD;
+  p.num= (a1.num*a2.den)+(a2.num*a1.den);
+  p.den=(a1.den*a2.den);
+  GCD=gcd(p.num,p.den);
+  p.num=p.num/GCD;
+  p.den=p.den/GCD;
+  return p;
+}
+ 
+void output(frac a1,frac a2,frac result)
+{
+  printf("The sum of %d/%d and %d/%d is %d/%d",a1.num,a1.den,a2.num,a2.den, result.num,result.den);
+  printf("\n");
+}
+ 
+int main()
+{
+  frac a1,a2,result;
+  printf("Enter the first fraction:\n");
+  a1=input();
+  printf("Enter the second fraction:\n");
+  a2=input();
+  result = sum(a1,a2);
+  output(a1,a2,result);
+  return 0;
+}

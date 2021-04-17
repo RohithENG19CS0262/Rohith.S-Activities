@@ -1,0 +1,107 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+struct employee {
+  char names[10];
+  float rate;
+  float all_hours;
+  float sal;
+};
+typedef struct employee employee;
+
+struct time_c {
+  char names[10];
+  int min;
+};
+typedef struct time_c time_c;
+
+int input_num_employee() {
+  int n;
+  printf("Enter the number of employees:");
+  scanf("%d", & n);
+  return n;
+}
+
+employee input_one_employee() {
+  employee r;
+  printf("Enter the name of the employee:");
+  scanf("%s", r.names);
+  printf("Enter the hourly rate:");
+  scanf("%f", & r.rate);
+  return r;
+}
+
+void input_n_employee(int n, employee a[n]) {
+  for (int i = 0; i < n; i++) {
+    a[i] = input_one_employee();
+  }
+}
+
+int input_num_time_c() {
+  int n;
+  printf("\nEnter the no. of time cards:");
+  scanf("%d", & n);
+  return n;
+}
+
+time_c input_one_time_c() {
+  time_c s;
+  printf("Enter the emp name:");
+  scanf("%s", s.names);
+  printf("Enter the time in minutes:");
+  scanf("%d", & s.min);
+  return s;
+}
+
+void input_n_time_c(int n, time_c b[100]) {
+  for (int i = 0; i < n; i++) {
+    b[i] = input_one_time_c();
+  }
+}
+
+void compute(int n, employee * a, time_c b[100]) {
+  float hrs = 0;
+  for (int j = 0; j < n; j++) {
+    if (strcmp(a -> names, b[j].names) == 0) {
+      hrs = hrs + b[j].min;
+    }
+  }
+  hrs = (float) hrs / 60;
+  if (hrs > 40) {
+    a -> sal = a -> rate * 40 + a -> rate * (hrs - 40) * 1.5;
+  } else {
+    a -> sal = a -> rate * hrs;
+  }
+  a -> all_hours = (float) hrs;
+}
+
+void compute_n(int m, int n, employee a[100], time_c b[100]) {
+  for (int i = 0; i < n; i++) {
+    compute(n, & a[i], b);
+  }
+}
+
+void display(employee a) {
+  printf("%s: %.2f, $%.2f ", a.names, a.all_hours, a.sal);
+  printf("\n");
+}
+
+void display_n(int m, employee a[10]) {
+  for (int i = 0; i < m; i++) {
+    display(a[i]);
+  }
+}
+
+int main() {
+  int n, m;
+  m = input_num_employee();
+  employee a[m];
+  input_n_employee(m, a);
+  n = input_num_time_c();
+  time_c b[n];
+  input_n_time_c(n, b);
+  compute_n(m, n, a, b);
+  display_n(m, a);
+  return 0;
+}
